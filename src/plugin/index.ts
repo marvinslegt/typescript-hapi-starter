@@ -2,6 +2,8 @@ import Config from '../config';
 import * as Hapi from '@hapi/hapi';
 import Logger from '../helper/logger';
 
+// @ts-ignore
+
 export default class Plugins {
   public static async swagger(server: Hapi.Server): Promise<Error | any> {
     try {
@@ -34,7 +36,7 @@ export default class Plugins {
   ): Promise<void> {
     Logger.debug('registering: ' + JSON.stringify(plugin));
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       server.register(plugin);
       resolve();
     });

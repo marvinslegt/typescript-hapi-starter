@@ -21,7 +21,7 @@ interface IResponse<T> {
 
 interface IResponseOptions<T> {
   value?: T | null | undefined;
-  boom?: Boom.Boom<any> | null | undefined;
+  boom?: Boom.Boom<unknown> | null | undefined;
 }
 
 export default function createResponse<T>(
@@ -29,7 +29,7 @@ export default function createResponse<T>(
   { value = null, boom = null }: IResponseOptions<T>
 ): IResponse<T> {
   const errors: IResponseError[] = [];
-  const data: any = [];
+  const data: unknown = [];
 
   if (boom) {
     errors.push({
@@ -41,9 +41,9 @@ export default function createResponse<T>(
 
   if (value && data) {
     if (Array.isArray(value)) {
-      data.push(...value);
+      (data as unknown[]).push(...value);
     } else {
-      data.push(value);
+      (data as unknown[]).push(value);
     }
   }
 
@@ -53,7 +53,7 @@ export default function createResponse<T>(
       operation: request.url.pathname,
       paging: null,
     },
-    data,
+    data: data as T[],
     errors,
   };
 }

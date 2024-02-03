@@ -17,7 +17,8 @@ export default class Server {
         port: process.env.PORT,
       });
 
-      Server._instance.validator(require('@hapi/joi'));
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      Server._instance.validator(require('joi'));
 
       await Plugin.registerAll(Server._instance);
       await Router.loadRoutes(Server._instance);
@@ -35,7 +36,7 @@ export default class Server {
       );
 
       return Server._instance;
-    } catch (error: any) {
+    } catch (error: unknown) {
       Logger.info(`Server - There was something wrong: ${error}`);
 
       throw error;
