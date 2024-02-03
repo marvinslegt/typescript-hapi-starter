@@ -3,21 +3,6 @@ import * as Hapi from '@hapi/hapi';
 import Logger from '../helper/logger';
 
 export default class Plugins {
-  public static async status(server: Hapi.Server): Promise<Error | any> {
-    try {
-      Logger.info('Plugins - Registering status-monitor');
-
-      await Plugins.register(server, {
-        options: Config.status.options,
-        plugin: require('hapijs-status-monitor'),
-      });
-    } catch (error) {
-      Logger.info(
-        `Plugins - Ups, something went wrong when registering status plugin: ${error}`
-      );
-    }
-  }
-
   public static async swagger(server: Hapi.Server): Promise<Error | any> {
     try {
       Logger.info('Plugins - Registering swagger-ui');
@@ -30,7 +15,7 @@ export default class Plugins {
           plugin: require('hapi-swagger'),
         },
       ]);
-    } catch (error) {
+    } catch (error: any) {
       Logger.info(
         `Plugins - Ups, something went wrong when registering swagger-ui plugin: ${error}`
       );
@@ -39,7 +24,6 @@ export default class Plugins {
 
   public static async registerAll(server: Hapi.Server): Promise<Error | any> {
     if (process.env.NODE_ENV === 'development') {
-      await Plugins.status(server);
       await Plugins.swagger(server);
     }
   }

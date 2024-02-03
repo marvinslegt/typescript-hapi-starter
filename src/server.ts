@@ -16,7 +16,7 @@ export default class Server {
       Server._instance = new Hapi.Server({
         port: process.env.PORT,
       });
-      
+
       Server._instance.validator(require('@hapi/joi'));
 
       await Plugin.registerAll(Server._instance);
@@ -35,7 +35,7 @@ export default class Server {
       );
 
       return Server._instance;
-    } catch (error) {
+    } catch (error: any) {
       Logger.info(`Server - There was something wrong: ${error}`);
 
       throw error;
